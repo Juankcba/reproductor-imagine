@@ -148,7 +148,7 @@ export default function Home() {
   };
   return (
     <Layout>
-      <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex justify-center p-[40px]">
+      <div className=" flex justify-center p-[40px]">
         <div className="grid sm:grid-cols-1 xl:grid-cols-3 gap-4">
           <div className="sm:cols-span-1 xl:col-span-2">
             <CardPlayer
