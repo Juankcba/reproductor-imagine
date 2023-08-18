@@ -15,6 +15,7 @@ function CardPlayer({ canciones, toggleLike, indexSong, setIndexSong }) {
     const [loading, setLoading] = useState(true);
     const [timePlaying, setTimePlaying] = useState('00:00');
     const [progressTime, setProgressTime] = useState(0);
+    const [repeat, setRepeat] = useState(false);
 
     const song1 = useAudioPlayer();
 
@@ -33,7 +34,7 @@ function CardPlayer({ canciones, toggleLike, indexSong, setIndexSong }) {
         setLoading(false);
 
 
-    }, []);
+    }, [indexSong]);
 
 
     const togglePlayingBoth = useCallback(() => {
@@ -53,13 +54,12 @@ function CardPlayer({ canciones, toggleLike, indexSong, setIndexSong }) {
 
 
     const handleNextSong = () => {
+
         let aux = indexSong + 1
+        console.log("next-song", aux);
         if (aux < canciones.length) {
 
-            song1.load(canciones[aux].url, {
-                autoplay: true,
-                onend: () => handleNextSong()
-            })
+
             setIndexSong(aux);
         }
 
@@ -68,13 +68,12 @@ function CardPlayer({ canciones, toggleLike, indexSong, setIndexSong }) {
     const handleBackSong = () => {
         let aux = indexSong - 1;
         if (aux >= 0) {
-            song1.load(canciones[aux].url, {
-                autoplay: true,
-                onend: () => handleNextSong()
-            })
+
             setIndexSong(aux);
         }
     }
+
+
 
 
 
@@ -142,6 +141,7 @@ function CardPlayer({ canciones, toggleLike, indexSong, setIndexSong }) {
                                 className="data-[hover]:bg-foreground/10"
                                 radius="full"
                                 variant="light"
+                                onClick={() => song1.seek(song1.duration * 0.99)}
                             >
                                 <RepeatOneIcon className="text-foreground/80" />
                             </Button>
