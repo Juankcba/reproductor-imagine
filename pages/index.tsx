@@ -1,118 +1,156 @@
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
-
-const inter = Inter({ subsets: ['latin'] })
+import React, { useState } from "react";
+import Image from "next/image";
+import { Inter } from "next/font/google";
+import Layout from "@/components/Layout/Layout";
+import CardPlayer from "../components/Ui/CardPlayer";
+import {
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+} from "@nextui-org/react";
+const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const [canciones, setCanciones] = useState([
+    {
+      name: "Natural",
+      band: "Imagine Dragons",
+      duration: "03:09",
+      id: 1,
+      url: "/canciones/natural.mp3",
+    },
+    {
+      name: "Boomerang",
+      band: "Imagine Dragons",
+      duration: "03:07",
+      id: 2,
+      url: "/canciones/boomerang.mp3",
+    },
+    {
+      name: "Machine",
+      band: "Imagine Dragons",
+      duration: "03:01",
+      id: 3,
+      url: "/canciones/machine.mp3",
+    },
+    {
+      name: "Cool Out",
+      band: "Imagine Dragons",
+      duration: "03:37",
+      id: 4,
+      url: "/canciones/cool-out.mp3",
+    },
+    {
+      name: "Bad Liar",
+      band: "Imagine Dragons",
+      duration: "04:20",
+      id: 5,
+      url: "/canciones/bad-liar.mp3",
+    },
+    {
+      name: "West Coast",
+      band: "Imagine Dragons",
+      duration: "03:37",
+      id: 6,
+      url: "/canciones/west-coast.mp3",
+    },
+    {
+      name: "Zero",
+      band: "Imagine Dragons",
+      duration: "03:30",
+      id: 7,
+      url: "/canciones/zero.mp3",
+    },
+    {
+      name: "Bullet in a Gun",
+      band: "Imagine Dragons",
+      duration: "03:24",
+      id: 8,
+      url: "/canciones/bullet-in-a-gun.mp3",
+    },
+    {
+      name: "Digital",
+      band: "Imagine Dragons",
+      duration: "03:21",
+      id: 9,
+      url: "/canciones/digital.mp3",
+    },
+    {
+      name: "Only",
+      band: "Imagine Dragons",
+      duration: "03:00",
+      id: 10,
+      url: "/canciones/only.mp3",
+    },
+    {
+      name: "Stuck",
+      band: "Imagine Dragons",
+      duration: "03:10",
+      id: 11,
+      url: "/canciones/stuck.mp3",
+    },
+    {
+      name: "Love",
+      band: "Imagine Dragons",
+      duration: "02:46",
+      id: 12,
+      url: "/canciones/love.mp3",
+    },
+    {
+      name: "Birds",
+      band: "Imagine Dragons",
+      duration: "03:39",
+      id: 13,
+      url: "/canciones/birds.mp3",
+    },
+    {
+      name: "Burn Out",
+      band: "Imagine Dragons",
+      duration: "04:33",
+      id: 14,
+      url: "/canciones/burn-out.mp3",
+    },
+    {
+      name: "Real Life",
+      band: "Imagine Dragons",
+      duration: "04:07",
+      id: 15,
+      url: "/canciones/real-life.mp3",
+    },
+  ]);
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">pages/index.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <Layout>
+      <h1>Hola Mundo</h1>
+      <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex justify-center p-[40px]">
+        <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="sm:cols-span-1 md:col-span-2">
+            <CardPlayer canciones={canciones} />
+          </div>
+          <div className="col-span-1">
+            <Table aria-label="Imagine Dragons">
+              <TableHeader>
+                <TableColumn>NOMBRE</TableColumn>
+                <TableColumn>BANDA</TableColumn>
+                <TableColumn>DURACIÓN</TableColumn>
+              </TableHeader>
+              <TableBody>
+                {canciones.map((cancion) => (
+                  <TableRow key={cancion.id}>
+                    <TableCell>{cancion.name}</TableCell>
+                    <TableCell>{cancion.band}</TableCell>
+                    <TableCell className="text-center">
+                      {cancion.duration}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </div>
       </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700/10 after:dark:from-sky-900 after:dark:via-[#0141ff]/40 before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Discover and deploy boilerplate example Next.js&nbsp;projects.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+    </Layout>
+  );
 }
