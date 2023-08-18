@@ -6,10 +6,13 @@ import { PreviousIcon } from "./PreviousIcon";
 import { PauseCircleIcon } from "./PauseCircleIcon";
 import { ShuffleIcon } from "./ShuffleIcon";
 import { NextIcon } from './NextIcon';
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
 
 import { intervalToDuration } from "date-fns";
 import { useAudioPlayer, useGlobalAudioPlayer } from "react-use-audio-player"
 function CardPlayer({ canciones, toggleLike, indexSong, setIndexSong }) {
+
     const [liked, setLiked] = React.useState(false);
     const [repeat, setRepeat] = useState(false);
     const [random, setRandom] = useState(false);
@@ -86,6 +89,7 @@ function CardPlayer({ canciones, toggleLike, indexSong, setIndexSong }) {
 
 
     const handleNextSong = () => {
+
         let aux = 0;
         if (random) {
             aux = Math.floor(Math.random() * (canciones.length + 1));
@@ -111,7 +115,19 @@ function CardPlayer({ canciones, toggleLike, indexSong, setIndexSong }) {
         }
     }
 
+    const handleSeek = (
+        event,
+        newValue,
+        activeThumb
+    ) => {
+        if (activeThumb === 0) {
+            console.log(newValue)
+            song1.stop();
+            song1.seek(newValue);
+            song1.play();
+        }
 
+    }
 
 
 
@@ -157,7 +173,41 @@ function CardPlayer({ canciones, toggleLike, indexSong, setIndexSong }) {
                         </div>
 
                         <div className="flex flex-col mt-3 gap-1">
-                            <Progress
+                            <Slider
+
+                                value={progressTime}
+                                onChange={handleSeek}
+                                min={0}
+                                step={1}
+                                max={song1.duration}
+                                valueLabelDisplay="off"
+                                sx={{
+                                    color: '#fff',
+                                    height: 4,
+                                    '& .MuiSlider-thumb': {
+                                        width: 8,
+                                        height: 8,
+                                        transition: '0.3s cubic-bezier(.47,1.64,.41,.8)',
+                                        '&:before': {
+                                            boxShadow: '0 2px 12px 0 rgba(0,0,0,0.4)',
+                                        },
+                                        '&:hover, &.Mui-focusVisible': {
+                                            boxShadow:
+                                                'rgb(255 255 255 / 16%)'
+
+                                            ,
+                                        },
+                                        '&.Mui-active': {
+                                            width: 20,
+                                            height: 20,
+                                        },
+                                    },
+                                    '& .MuiSlider-rail': {
+                                        opacity: 0.28,
+                                    },
+                                }}
+                            />
+                            {/* <Progress
                                 aria-label="Music progress"
                                 classNames={{
                                     indicator: "bg-default-800 dark:bg-white",
@@ -166,7 +216,7 @@ function CardPlayer({ canciones, toggleLike, indexSong, setIndexSong }) {
                                 color="default"
                                 size="sm"
                                 value={(progressTime / song1.duration) * 100}
-                            />
+                            /> */}
                             <div className="flex justify-between">
                                 <p className="text-small">{timePlaying}</p>
                                 <p className="text-small text-foreground/50">{formatTime(song1.duration)}</p>
