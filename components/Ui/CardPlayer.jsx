@@ -11,11 +11,13 @@ import { intervalToDuration } from "date-fns";
 import { useAudioPlayer, useGlobalAudioPlayer } from "react-use-audio-player"
 function CardPlayer({ canciones, toggleLike, indexSong, setIndexSong }) {
     const [liked, setLiked] = React.useState(false);
-
+    const [repeat, setRepeat] = useState(false);
+    const [random, setRandom] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [nextSong, setNextSong] = useState(false);
     const [timePlaying, setTimePlaying] = useState('00:00');
     const [progressTime, setProgressTime] = useState(0);
-    const [repeat, setRepeat] = useState(false);
+
 
     const song1 = useAudioPlayer();
 
@@ -29,14 +31,44 @@ function CardPlayer({ canciones, toggleLike, indexSong, setIndexSong }) {
     useEffect(() => {
         song1.load(canciones[indexSong].url, {
             autoplay: true,
-            onend: () => handleNextSong()
+            onend: () => {
+                setNextSong(true)
+            }
         })
         setLoading(false);
 
 
     }, [indexSong]);
 
+    useEffect(() => {
+        console.log("repeat", repeat)
+    }, [repeat])
 
+    useEffect(() => {
+        console.log("random", random)
+    }, [random])
+
+
+    useEffect(() => {
+        if (nextSong) {
+            handleNextLoad();
+        }
+    }, [nextSong])
+
+
+
+    const handleNextLoad = () => {
+        console.log("finish the song", repeat)
+        setNextSong(false);
+        if (repeat) {
+            song1.stop();
+            song1.play();
+            setRepeat(false);
+        } else {
+            handleNextSong();
+        }
+
+    }
     const togglePlayingBoth = useCallback(() => {
         song1.togglePlayPause()
 
@@ -54,13 +86,19 @@ function CardPlayer({ canciones, toggleLike, indexSong, setIndexSong }) {
 
 
     const handleNextSong = () => {
+        let aux = 0;
+        if (random) {
+            aux = Math.floor(Math.random() * (canciones.length + 1));
+        } else {
+            aux = indexSong + 1;
+        }
 
-        let aux = indexSong + 1
         console.log("next-song", aux);
         if (aux < canciones.length) {
 
 
             setIndexSong(aux);
+
         }
 
 
@@ -141,9 +179,9 @@ function CardPlayer({ canciones, toggleLike, indexSong, setIndexSong }) {
                                 className="data-[hover]:bg-foreground/10"
                                 radius="full"
                                 variant="light"
-                                onClick={() => song1.seek(song1.duration * 0.99)}
+                                onClick={() => setRepeat(!repeat)}
                             >
-                                <RepeatOneIcon className="text-foreground/80" />
+                                <RepeatOneIcon className="text-foreground/80" fill={repeat ? '#000' : '#808080'} />
                             </Button>
                             <Button
                                 isIconOnly
@@ -152,6 +190,7 @@ function CardPlayer({ canciones, toggleLike, indexSong, setIndexSong }) {
                                 variant="light"
                                 disabled={indexSong == 0 ? true : false}
                                 onClick={handleBackSong}
+
                             >
                                 <PreviousIcon fill={indexSong == 0 ? '#808080' : '#000'}
                                 />
@@ -188,8 +227,9 @@ function CardPlayer({ canciones, toggleLike, indexSong, setIndexSong }) {
                                 className="data-[hover]:bg-foreground/10"
                                 radius="full"
                                 variant="light"
+                                onClick={() => setRandom(!random)}
                             >
-                                <ShuffleIcon className="text-foreground/80" />
+                                <ShuffleIcon className="text-foreground/80" fill={random ? '#000' : '#808080'} />
                             </Button>
                         </div>
                     </div>
