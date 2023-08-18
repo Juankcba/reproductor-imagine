@@ -9,13 +9,13 @@ import { NextIcon } from './NextIcon';
 
 import { intervalToDuration } from "date-fns";
 import { useAudioPlayer, useGlobalAudioPlayer } from "react-use-audio-player"
-function CardPlayer({ canciones }) {
+function CardPlayer({ canciones, toggleLike, indexSong, setIndexSong }) {
     const [liked, setLiked] = React.useState(false);
 
     const [loading, setLoading] = useState(true);
     const [timePlaying, setTimePlaying] = useState('00:00');
     const [progressTime, setProgressTime] = useState(0);
-    const [indexSong, setIndexSong] = useState(0);
+
     const song1 = useAudioPlayer();
 
     const formatTime = (timeData) => {
@@ -26,7 +26,10 @@ function CardPlayer({ canciones }) {
     }
 
     useEffect(() => {
-        song1.load(canciones[0].url, { autoplay: false })
+        song1.load(canciones[indexSong].url, {
+            autoplay: true,
+            onend: () => handleNextSong()
+        })
         setLoading(false);
 
 
@@ -53,7 +56,10 @@ function CardPlayer({ canciones }) {
         let aux = indexSong + 1
         if (aux < canciones.length) {
 
-            song1.load(canciones[aux].url, { autoplay: false })
+            song1.load(canciones[aux].url, {
+                autoplay: true,
+                onend: () => handleNextSong()
+            })
             setIndexSong(aux);
         }
 
@@ -62,7 +68,10 @@ function CardPlayer({ canciones }) {
     const handleBackSong = () => {
         let aux = indexSong - 1;
         if (aux >= 0) {
-            song1.load(canciones[aux].url, { autoplay: false })
+            song1.load(canciones[aux].url, {
+                autoplay: true,
+                onend: () => handleNextSong()
+            })
             setIndexSong(aux);
         }
     }
@@ -101,11 +110,11 @@ function CardPlayer({ canciones }) {
                                 className="text-default-900/60 data-[hover]:bg-foreground/10 -translate-y-2 translate-x-2"
                                 radius="full"
                                 variant="light"
-                                onPress={() => setLiked((v) => !v)}
+                                onPress={() => toggleLike(canciones[indexSong].id)}
                             >
                                 <HeartIcon
-                                    className={liked ? "[&>path]:stroke-transparent" : ""}
-                                    fill={liked ? "currentColor" : "none"}
+                                    className={canciones[indexSong].like ? "[&>path]:stroke-transparent" : ""}
+                                    fill={canciones[indexSong].like ? "currentColor" : "none"}
                                 />
                             </Button>
                         </div>
